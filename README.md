@@ -9,6 +9,7 @@
 
 - **Cryptographically strong** key derivation using [SHA3-512](https://en.wikipedia.org/wiki/SHA-3) and [HKDF](https://www.rfc-editor.org/rfc/rfc5869).
 - Statically-linked **standalone binary** with zero dependencies.
+- Rust crate and Python package for easy integration in your project.
 
 ## Usage
 
