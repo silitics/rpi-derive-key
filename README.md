@@ -15,6 +15,8 @@
 
 Upon initialization, a randomly generated 256-bit _device secret_ is stored in the OTP memory of the Raspberry Pi SoC. Note that the OTP memory on any board can be programmed _only once_. This secret is then used as input key material for the HKDF key derivation algorithm using SHA3-512 as the hash function. This enables the derivation of multiple keys from the device secret. Each key is derived from the derive secret and additional _info_ material (see HKDF). The device secret should be kept secret and `rpi-derive-key` does not provide any means of reading it directly. Using it and the info material, any key can be reconstructed. Note that the Raspberry Pi SoC does _not_ provide a hardware-protected store for the secret. Any user in the `video` group and anyone with physical access to the board can obtain the secret (unless secure boot is used). Via [secure boot](https://github.com/raspberrypi/usbboot/blob/master/secure-boot-example/README.md) it is indeed possible to prevent any unauthorized access when deploying Raspberry Pi's in untrusted environments.
 
+If you are interested in commercial support, please [contact us](support@silitics.com).
+
 ## Usage
 
 ### Initialization of the Device Secret
