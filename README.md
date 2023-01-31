@@ -5,7 +5,7 @@
     A utility for deriving secure device-specific keys on Raspberry Pi.
 </h4>
 
-⚠️ **Caution:** This tool stores a randomly generated _device secret_ in the [_One-Time Programmable_ (OTP) memory](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#otp-register-and-bit-definitions) of the Raspberry Pi. This operation is **irreversible**. Please **make sure you understand the provided security guarantees** before using it for anything serious.
+⚠️ **Caution:** This tool is based on a randomly generated _device secret_ stored in the [_One-Time Programmable_ (OTP) memory](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#otp-register-and-bit-definitions) of the Raspberry Pi. This operation is **irreversible**. Please **make sure you understand the provided security guarantees** before using it for anything serious.
 
 - **Cryptographically strong** key derivation using [SHA3-512](https://en.wikipedia.org/wiki/SHA-3) and [HKDF](https://www.rfc-editor.org/rfc/rfc5869).
 - Statically-linked **standalone binary** with zero dependencies.
@@ -44,7 +44,7 @@ rpi-derive-key gen 32 fs.root.encryption
 
 By using different values for `<INFO>` you can generate multiple independent keys.
 
-## How it works?
+## 🤔 How it Works
 
 Upon initialization, a randomly generated 256-bit secret is stored in the OTP memory. This key is used as input key material for the HKDF key derivation algorithm.
 
