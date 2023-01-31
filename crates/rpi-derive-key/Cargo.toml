@@ -1,0 +1,16 @@
+[package]
+name = "rpi-derive-key"
+version = "0.1.0"
+description = "A utility crate for deriving secure device-specific keys on Raspberry Pi."
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[dependencies]
+hkdf = "0.12"  # PRIVATE
+sha3 = "0.10"  # PRIVATE
+nix = { version = "0.26", features = ["ioctl"] }  # PRIVATE
+rand = "0.8.5"  # PRIVATE
+thiserror = "1.0.38"  # PRIVATE
+

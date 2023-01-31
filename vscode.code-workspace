@@ -1,0 +1,23 @@
+{
+    "folders": [
+        {
+            "name": "RPi Derive Key",
+            "path": "."
+        }
+    ],
+    "extensions": {
+        "recommendations": [
+            "rust-lang.rust-analyzer",
+            "panicbit.cargo",
+            "serayuzgur.crates"
+        ]
+    },
+    "settings": {
+        "rust-analyzer.rustfmt.extraArgs": [
+            "+nightly"
+        ],
+        "[markdown]": {
+            "editor.formatOnSave": true,
+        }
+    }
+}

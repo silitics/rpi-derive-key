@@ -1,0 +1,22 @@
+{
+    "version": "0.2",
+    "words": [
+        "errno",
+        "fcntl",
+        "hkdf",
+        "libc",
+        "NONBLOCK",
+        "panicbit",
+        "readwrite",
+        "rustfmt",
+        "serayuzgur",
+        "SETLK",
+        "SETLKW",
+        "thiserror",
+        "TOCTTOU",
+        "unistd",
+        "UNLCK",
+        "vcio",
+        "WRLCK"
+    ]
+}

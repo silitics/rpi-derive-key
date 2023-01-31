@@ -1,0 +1,17 @@
+[workspace]
+resolver = "2"
+members = ["crates/*"]
+
+[workspace.package]
+edition = "2021"
+authors = ["Silitics GmbH <info@silitics.com>"]
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/silitics/rpi-derive-key"
+
+[profile.release]
+# Change various parameters to reduce the size of the final binary.
+lto = true
+opt-level = "z"
+strip = true
+panic = "abort"
+codegen-units = 1

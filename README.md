@@ -2,15 +2,55 @@
     RPi Derive Key 🔑
 </h1>
 <h4 align="center">
-    A utility for deriving secure hardware-specific keys on Raspberry Pi.
+    A utility for deriving secure device-specific keys on Raspberry Pi.
 </h4>
 
-⚠️ **Caution:** This tool stores a randomly generated secret in the [_One-Time Programmable_ (OTP) memory](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#otp-register-and-bit-definitions) of the Raspberry Pi. This operation is **irreversible**. Please **make sure you understand the provided security guarantees** before using it for anything serious.
+⚠️ **Caution:** This tool stores a randomly generated _device secret_ in the [_One-Time Programmable_ (OTP) memory](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#otp-register-and-bit-definitions) of the Raspberry Pi. This operation is **irreversible**. Please **make sure you understand the provided security guarantees** before using it for anything serious.
 
 - **Cryptographically strong** key derivation using [SHA3-512](https://en.wikipedia.org/wiki/SHA-3) and [HKDF](https://www.rfc-editor.org/rfc/rfc5869).
-- **Standalone binary** with zero dependencies.
+- Statically-linked **standalone binary** with zero dependencies.
+
+## Usage
+
+### Initialization of the Device Secret
+
+Irreversibly initialize the device secret:
+
+```
+rpi-derive-key init
+```
+
+The initialization may fail if the firmware does not support storing a private key in OTP memory. You may need to update the firmware or use the generic customer-programable OTP registers instead with:
+
+```
+rpi-derive-key --customer-otp init
+```
+
+### Deriving a Key
+
+To derive a key use
+
+```
+rpi-derive-key gen <BYTES> <INFO>
+```
+
+where `<BYTES>` is the key size in bytes and `<INFO>` is some arbitrary string.
+
+For instance:
+
+```
+rpi-derive-key gen 32 fs.root.encryption
+```
+
+By using different values for `<INFO>` you can generate multiple independent keys.
 
 ## How it works?
+
+Upon initialization, a randomly generated 256-bit secret is stored in the OTP memory. This key is used as input key material for the HKDF key derivation algorithm.
+
+## ⚖️ Licensing
+
+Sidex is licensed under either [MIT](https://github.com/silitics/sidex/blob/main/LICENSE-MIT) or [Apache 2.0](https://github.com/silitics/sidex/blob/main/LICENSE-APACHE) at your opinion. Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in this project by you, as defined in the Apache 2.0 license, shall be dual licensed as above, without any additional terms or conditions.
 
 ---
 

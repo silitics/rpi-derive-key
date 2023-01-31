@@ -1,0 +1,17 @@
+[package]
+name = "rpi-derive-key-cli"
+version = "0.1.0"
+description = "A utility for deriving secure device-specific keys on Raspberry Pi."
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[[bin]]
+name = "rpi-derive-key"
+path = "src/main.rs"
+
+[dependencies]
+rpi-derive-key = { path = "../rpi-derive-key" }
+clap = { version = "4.1.4", features = ["derive", "cargo"] }
+uuid = "1.2.2"
