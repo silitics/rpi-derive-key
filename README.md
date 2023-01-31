@@ -54,4 +54,4 @@ _RPi Derive Key_ is licensed under either [MIT](https://github.com/silitics/side
 
 ---
 
-Made with ❤️ by [Silitics](https://www.silitics.com).
+Made with ❤️ for OSS by [Silitics](https://www.silitics.com).
