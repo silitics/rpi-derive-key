@@ -53,7 +53,7 @@ By using different values for `<INFO>` you can generate multiple independent key
 
 ### Example Use Case
 
-Imagine you would like to give each device a public device ID and a secret identification token.
+Imagine you would like to derive a unique public ID and a secret identification token for each device.
 
 To derive a _Universally Unique Identifier_ ([UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier)) using `device.id` as info material:
 
@@ -61,18 +61,18 @@ To derive a _Universally Unique Identifier_ ([UUID](https://en.wikipedia.org/wik
 rpi-derive-key uuid device.id
 ```
 
-You can now use the resulting UUID as a public device identifier. You do not have to keep it secret because it is impossible to reconstruct other keys or the device secret from it.
+You can now safely use the resulting UUID as a public device identifier. You do not have to keep it secret because it is impossible to reconstruct other keys or the device secret from it.
 
-Generate a 256-bit secret token used to identify the device:
+In addition to the public id, you can generate a 256-bit secret token with:
 
 ```
 rpi-derive-key hex 32 device.secret.token
 ```
 
-This secret token is supposed to be shared only with trustworthy entities, e.g., it may be sent in HTTP headers to prove the device's identity:
+This secret token is supposed to be shared only with trustworthy entities, e.g., it may be sent in HTTP headers to prove the device's identity to a webserver providing device configurations:
 
 ```
-curl --header "X-Secret-Token: <SECRET-TOKEN>" https://example.com/<DEVICE-ID>/config.tar.gz
+wget --header "X-Secret-Token: <SECRET-TOKEN>" https://example.com/<DEVICE-ID>/config.tar.gz
 ```
 
 ## ⚖️ Licensing
