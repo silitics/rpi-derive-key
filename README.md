@@ -69,13 +69,13 @@ In addition to the public id, you can generate a 256-bit secret token with:
 rpi-derive-key hex 32 device.secret.token
 ```
 
-This secret token is supposed to be shared only with trustworthy entities, e.g., it may be sent in HTTP headers to prove the device's identity to a webserver providing device updates:
+This secret token is supposed to be shared only with trustworthy entities, e.g., it may be sent in HTTP headers to prove the device's identity to a webserver providing device configurations:
 
 ```
-wget --header "X-Secret-Token: <SECRET-TOKEN>" https://example.com/<DEVICE-ID>/image.img.xz
+wget --header "X-Secret-Token: <SECRET-TOKEN>" https://example.com/<DEVICE-ID>/config.tar.gz
 ```
 
-📌 **Tip:** You should use different keys (with different info material) for different purposes like fetching updates. That way, if a key for a given purpose is compromised, all other keys remain secure.
+📌 **Tip:** You should use different keys (with different info material) for different purposes (e.g., fetching updates or configurations). That way, if a key for a given purpose is compromised, all other keys remain secure.
 
 ## ⚖️ Licensing
 
