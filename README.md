@@ -55,6 +55,8 @@ By using different values for `<INFO>` you can generate multiple independent key
 
 For testing and debugging purposes, you can fake a device secret by setting the `FAKE_RPI_DERIVE_KEY_SECRET` environment variable to any secret you like. Please _never use this variable in production_.
 
+Setting this variable also bypasses initialization via `rpi-derive-key init`.
+
 ### Example Use Case
 
 Imagine you would like to derive a unique public ID and a secret identification token for each device.
