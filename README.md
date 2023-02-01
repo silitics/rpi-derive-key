@@ -51,20 +51,22 @@ rpi-derive-key gen 32 fs.root.encryption
 
 By using different values for `<INFO>` you can generate multiple independent keys.
 
-### Examples
+### Example Use Case
 
-Derive a unique 128-bit device ID which can be turned into a [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier):
+Imagine you would like to give each device a public device ID and a secret identification token.
+
+To derive a _Universally Unique Identifier_ ([UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier)) using `device.id` as info material:
 
 ```
-rpi-derive-key gen 16 device.id
+rpi-derive-key uuid device.id
 ```
 
-You do not have to keep this device ID secret because it is impossible to reconstruct other keys/the device secret from it.
+You can now use the resulting UUID as a public device identifier. You do not have to keep it secret because it is impossible to reconstruct other keys or the device secret from it.
 
 Generate a 256-bit secret token used to identify the device:
 
 ```
-rpi-derive-key gen 32 device.secret.token
+rpi-derive-key hex 32 device.secret.token
 ```
 
 This secret token is supposed to be shared only with trustworthy entities, e.g., it may be sent in HTTP headers to prove the device's identity:
@@ -80,7 +82,3 @@ _RPi Derive Key_ is licensed under either [MIT](https://github.com/silitics/side
 ---
 
 Made with ❤️ for OSS by [Silitics](https://www.silitics.com).
-
-```
-
-```
