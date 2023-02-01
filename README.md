@@ -17,7 +17,7 @@ Upon initialization, a randomly generated 256-bit _device secret_ is stored in t
 
 If you are interested in commercial support, [please contact us](mailto:support@silitics.com?subject=[RPi%20Derive%20Key]%20Support).
 
-## Usage
+## 🧑‍💻 Usage
 
 ### Initialization of the Device Secret
 
@@ -72,10 +72,6 @@ This secret token is supposed to be shared only with trustworthy entities, e.g.,
 ```
 curl --header "X-Secret-Token: <SECRET-TOKEN>" https://example.com/<DEVICE-ID>/config.tar.gz
 ```
-
-## 🤔 How it Works
-
-Upon initialization, a randomly generated 256-bit secret is stored in the OTP memory. This key is used as input key material for the HKDF key derivation algorithm.
 
 ## ⚖️ Licensing
 
