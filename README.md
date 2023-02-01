@@ -55,7 +55,7 @@ By using different values for `<INFO>` you can generate multiple independent key
 
 Imagine you would like to derive a unique public ID and a secret identification token for each device.
 
-To derive a _Universally Unique Identifier_ ([UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier)) using `device.id` as info material:
+You can derive a _Universally Unique Identifier_ ([UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier)), using `device.id` as info material, with:
 
 ```
 rpi-derive-key uuid device.id
@@ -74,6 +74,8 @@ This secret token is supposed to be shared only with trustworthy entities, e.g.,
 ```
 wget --header "X-Secret-Token: <SECRET-TOKEN>" https://example.com/<DEVICE-ID>/config.tar.gz
 ```
+
+📌 Tip: You should use different keys (with different info material) for different purposes (fetching updates, issuing JWT tokens, et cetera). That way, if a key for a given purpose is compromised, all other keys remain secure.
 
 ## ⚖️ Licensing
 
