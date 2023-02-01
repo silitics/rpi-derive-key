@@ -63,7 +63,7 @@ rpi-derive-key uuid device.id
 
 You can now safely use the resulting UUID as a public device identifier. You do not have to keep it secret because it is impossible to reconstruct other keys or the device secret from it.
 
-In addition to the public id, you can generate a 256-bit (32 bytes) secret token with:
+In addition to the public id, you can derive a 256-bit (32 bytes) secret token with:
 
 ```
 rpi-derive-key hex 32 device.secret.token
