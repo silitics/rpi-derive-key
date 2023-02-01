@@ -51,6 +51,10 @@ rpi-derive-key gen 32 fs.root.encryption
 
 By using different values for `<INFO>` you can generate multiple independent keys.
 
+### Testing and Debugging
+
+For testing and debugging purposes, you can fake a secret by setting the `FAKE_RPI_DERIVE_KEY_SECRET` environment variable to any secret you like. Please never use this variable in production.
+
 ### Example Use Case
 
 Imagine you would like to derive a unique public ID and a secret identification token for each device.
