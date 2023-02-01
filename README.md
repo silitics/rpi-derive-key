@@ -75,7 +75,7 @@ This secret token is supposed to be shared only with trustworthy entities, e.g.,
 wget --header "X-Secret-Token: <SECRET-TOKEN>" https://example.com/<DEVICE-ID>/config.tar.gz
 ```
 
-📌 Tip: You should use different keys (with different info material) for different purposes (fetching updates, issuing JWT tokens, et cetera). That way, if a key for a given purpose is compromised, all other keys remain secure.
+📌 **Tip:** You should use different keys (with different info material) for different purposes. That way, if a key for a given purpose is compromised, all other keys remain secure.
 
 ## ⚖️ Licensing
 
