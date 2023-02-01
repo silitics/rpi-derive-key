@@ -53,7 +53,7 @@ By using different values for `<INFO>` you can generate multiple independent key
 
 ### Testing and Debugging
 
-For testing and debugging purposes, you can fake a secret by setting the `FAKE_RPI_DERIVE_KEY_SECRET` environment variable to any secret you like. Please never use this variable in production.
+For testing and debugging purposes, you can fake a device secret by setting the `FAKE_RPI_DERIVE_KEY_SECRET` environment variable to any secret you like. Please _never use this variable in production_.
 
 ### Example Use Case
 
