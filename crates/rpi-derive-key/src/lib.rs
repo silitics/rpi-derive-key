@@ -4,16 +4,18 @@ use std::io;
 
 use rand::Rng;
 use thiserror::Error;
-use vcio::Vcio;
 
-mod otp;
-mod vcio;
+#[cfg(target_os = "linux")]
+pub(crate) mod linux;
 
 /// Check whether the device is a Raspberry Pi.
 ///
 /// This function simply checks whether the VCIO device `/dev/vcio` exists.
 pub fn is_raspberry_pi() -> bool {
-    vcio::Vcio::exists()
+    #[cfg(target_os = "linux")]
+    return linux::vcio::Vcio::exists();
+    #[cfg(not(target_os = "linux"))]
+    return false;
 }
 
 /// Randomly generate a secret key to store in OTP memory.
@@ -24,9 +26,12 @@ fn generate_secret() -> [u8; 32] {
 /// Check whether the Raspberry Pi's firmware supports storing a private key.
 pub fn supports_private_key() -> bool {
     // Simply check whether the firmware support reading the private key.
-    Vcio::open()
+    #[cfg(target_os = "linux")]
+    return linux::vcio::Vcio::open()
         .and_then(|vcio| otp::get_private_key(&vcio))
-        .is_ok()
+        .is_ok();
+    #[cfg(not(target_os = "linux"))]
+    return true;
 }
 
 /// A builder for [`Deriver`].
@@ -86,30 +91,38 @@ impl DeriverBuilder {
         let salt = self.salt.as_ref().map(Vec::as_slice);
         if let Ok(secret) = std::env::var("FAKE_RPI_DERIVE_KEY_SECRET") {
             // Return a `Deriver` based on the fake key.
+            eprintln!("Warning! Using fake secret.");
             return Ok(Deriver::new(salt, secret.as_bytes()));
         }
-        let vcio = Vcio::open()?;
-        // Obtain an exclusive lock on the VCIO device.
-        // let _guard = vcio.lock()?;
-        let mut secret = if self.use_customer_otp {
-            otp::get_customer_otp(&vcio)?
-        } else {
-            otp::get_private_key(&vcio)?
-        };
-        let is_initialized = secret != [0; 32];
-        if !is_initialized {
-            if self.initialize {
-                secret = generate_secret();
-                if self.use_customer_otp {
-                    otp::set_customer_otp(&vcio, &secret)?;
-                } else {
-                    otp::set_private_key(&vcio, &secret)?;
-                }
+        #[cfg(target_os = "linux")]
+        {
+            let vcio = linux::Vcio::open()?;
+            // Obtain an exclusive lock on the VCIO device.
+            // let _guard = vcio.lock()?;
+            let mut secret = if self.use_customer_otp {
+                linux::otp::get_customer_otp(&vcio)?
             } else {
-                return Err(BuildError::Uninitialized);
+                linux::otp::get_private_key(&vcio)?
+            };
+            let is_initialized = secret != [0; 32];
+            if !is_initialized {
+                if self.initialize {
+                    secret = generate_secret();
+                    if self.use_customer_otp {
+                        linux::otp::set_customer_otp(&vcio, &secret)?;
+                    } else {
+                        linux::otp::set_private_key(&vcio, &secret)?;
+                    }
+                } else {
+                    return Err(BuildError::Uninitialized);
+                }
             }
+            return Ok(Deriver::new(salt, &secret));
         }
-        Ok(Deriver::new(salt, &secret))
+        #[cfg(not(target_os = "linux"))]
+        {
+            return Err(BuildError::Uninitialized);
+        }
     }
 }
 
@@ -129,11 +142,25 @@ pub struct Status {
 }
 
 pub fn status() -> Result<Status, io::Error> {
-    let vcio = Vcio::open()?;
-    Ok(Status {
-        has_customer_otp: otp::get_customer_otp(&vcio)?.iter().any(|byte| *byte != 0),
-        has_private_key: otp::get_private_key(&vcio)?.iter().any(|byte| *byte != 0),
-    })
+    #[cfg(target_os = "linux")]
+    {
+        let vcio = linux::Vcio::open()?;
+        return Ok(Status {
+            has_customer_otp: linux::otp::get_customer_otp(&vcio)?
+                .iter()
+                .any(|byte| *byte != 0),
+            has_private_key: linux::otp::get_private_key(&vcio)?
+                .iter()
+                .any(|byte| *byte != 0),
+        });
+    }
+    #[cfg(not(target_os = "linux"))]
+    {
+        return Ok(Status {
+            has_customer_otp: false,
+            has_private_key: std::env::var("FAKE_RPI_DERIVE_KEY_SECRET").is_ok(),
+        });
+    }
 }
 
 /// Error indicating that the length of the requested key is too long.
