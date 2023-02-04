@@ -1,0 +1,12 @@
+[package]
+name = "rpi-derive-key-python"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+name = "rpi_derive_key"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.18.0", features = ["extension-module", "abi3-py37"] }
+rpi-derive-key = { path = "../crates/rpi-derive-key" }
