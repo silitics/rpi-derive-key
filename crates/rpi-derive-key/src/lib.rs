@@ -28,7 +28,7 @@ pub fn supports_private_key() -> bool {
     // Simply check whether the firmware support reading the private key.
     #[cfg(target_os = "linux")]
     return linux::vcio::Vcio::open()
-        .and_then(|vcio| otp::get_private_key(&vcio))
+        .and_then(|vcio| linux::otp::get_private_key(&vcio))
         .is_ok();
     #[cfg(not(target_os = "linux"))]
     return true;
@@ -96,7 +96,7 @@ impl DeriverBuilder {
         }
         #[cfg(target_os = "linux")]
         {
-            let vcio = linux::Vcio::open()?;
+            let vcio = linux::vcio::Vcio::open()?;
             // Obtain an exclusive lock on the VCIO device.
             // let _guard = vcio.lock()?;
             let mut secret = if self.use_customer_otp {
@@ -144,7 +144,7 @@ pub struct Status {
 pub fn status() -> Result<Status, io::Error> {
     #[cfg(target_os = "linux")]
     {
-        let vcio = linux::Vcio::open()?;
+        let vcio = linux::vcio::Vcio::open()?;
         return Ok(Status {
             has_customer_otp: linux::otp::get_customer_otp(&vcio)?
                 .iter()

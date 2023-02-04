@@ -2,7 +2,7 @@
 
 use std::io;
 
-use crate::vcio::Vcio;
+use super::vcio::Vcio;
 
 /// Copy bytes from a `u32` buffer as used by the property interface to a byte slice.
 fn copy_bytes(src: &[u32], mut dst: &mut [u8]) {
