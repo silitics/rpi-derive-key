@@ -19,6 +19,10 @@ If you are interested in commercial support, [please contact us](mailto:support@
 
 ## 🧑‍💻 Usage
 
+[Rust Crate Documentation](https://docs.rs/rpi-derive-key/)
+
+[Python Package Documentation](https://github.com/silitics/rpi-derive-key/blob/main/python/rpi_derive_key.pyi)
+
 ### Initialization of the Device Secret
 
 Irreversibly initialize the device secret:
