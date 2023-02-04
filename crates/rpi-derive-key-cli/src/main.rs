@@ -26,14 +26,14 @@ enum Command {
     /// Irreversibly initialize the OTP registers of the Raspberry Pi.
     Init,
     /// Derive a hardware-specific key using the provided information.
-    Derive {
+    Hex {
         /// The size of the key in bytes.
         bytes: u16,
         /// Additional information used to derive the key.
         info: String,
     },
-    /// Derives a unique device id in the form of a UUID version 4.
-    Id,
+    /// Derives a UUID version 4 using the provided info material.
+    Uuid { info: String },
 }
 
 fn main() {
@@ -41,7 +41,7 @@ fn main() {
 
     let builder = DeriverBuilder::new()
         .with_salt(args.salt)
-        .use_customer_otp(args.customer_otp);
+        .with_use_customer_otp(args.customer_otp);
 
     match args.cmd {
         Command::Status => {
@@ -55,7 +55,7 @@ fn main() {
             println!("Has Customer OTP: {}", status.has_customer_otp);
             println!("Has Private Key: {}", status.has_private_key);
         }
-        Command::Derive { bytes, info } => {
+        Command::Hex { bytes, info } => {
             let deriver = builder.build().unwrap();
 
             let mut out = vec![0u8; bytes as usize];
@@ -68,11 +68,11 @@ fn main() {
 
             println!("{}", formatted);
         }
-        Command::Id => {
+        Command::Uuid { info } => {
             let deriver = builder.build().unwrap();
 
             let mut out = [0; 16];
-            deriver.derive_key("device.id", &mut out).unwrap();
+            deriver.derive_key(&info, &mut out).unwrap();
             let id = uuid::Builder::from_random_bytes(out).into_uuid();
             println!("{}", id);
         }

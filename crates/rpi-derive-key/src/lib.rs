@@ -30,7 +30,7 @@ pub fn supports_private_key() -> bool {
 }
 
 /// A builder for [`Deriver`].
-#[derive(Debug, Default)]
+#[derive(Debug, Clone, Default)]
 pub struct DeriverBuilder {
     /// Initialize the OTP memory.
     initialize: bool,
@@ -53,20 +53,32 @@ impl DeriverBuilder {
         self
     }
 
+    pub fn use_customer_otp(&self) -> bool {
+        self.use_customer_otp
+    }
+
     /// Enable the usage of the customer-programable OTP values instead of the OTP private
     /// key.
     #[must_use]
-    pub fn use_customer_otp(mut self, enable: bool) -> Self {
-        self.use_customer_otp = enable;
+    pub fn with_use_customer_otp(mut self, enable: bool) -> Self {
+        self.set_use_customer_otp(enable);
         self
+    }
+
+    pub fn set_use_customer_otp(&mut self, enable: bool) {
+        self.use_customer_otp = enable;
     }
 
     /// Enable the automatic initialization of the OTP memory with a randomly generated
     /// secret.
     #[must_use]
     pub fn initialize(mut self, enable: bool) -> Self {
-        self.initialize = enable;
+        self.set_initialize(enable);
         self
+    }
+
+    pub fn set_initialize(&mut self, enable: bool) {
+        self.initialize = enable
     }
 
     /// Build a [`Deriver`].
@@ -146,5 +158,16 @@ impl Deriver {
 impl std::fmt::Debug for Deriver {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         f.debug_struct("Deriver").finish_non_exhaustive()
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use rand::CryptoRng;
+
+    #[test]
+    fn rng_is_cryptographic() {
+        fn check<R: CryptoRng>(_: R) {}
+        check(rand::thread_rng())
     }
 }
