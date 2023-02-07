@@ -147,13 +147,15 @@ pub fn status() -> Result<Status, io::Error> {
     #[cfg(target_os = "linux")]
     {
         let vcio = linux::vcio::Vcio::open()?;
+        let has_customer_otp = linux::otp::get_customer_otp(&vcio)?
+            .iter()
+            .any(|byte| *byte != 0);
+        let has_private_key = linux::otp::get_private_key(&vcio)
+            .map(|secret| secret.iter().any(|byte| *byte != 0))
+            .unwrap_or_default();
         return Ok(Status {
-            has_customer_otp: linux::otp::get_customer_otp(&vcio)?
-                .iter()
-                .any(|byte| *byte != 0),
-            has_private_key: linux::otp::get_private_key(&vcio)?
-                .iter()
-                .any(|byte| *byte != 0),
+            has_customer_otp,
+            has_private_key,
         });
     }
     #[cfg(not(target_os = "linux"))]
