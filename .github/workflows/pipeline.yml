@@ -150,7 +150,7 @@ jobs:
       - name: Assets | Upload
         uses: actions/upload-artifact@v3
         with:
-          name: assets
+          name: assets-wheels
           path: python/dist/**/*
 
   build_linux_binaries:
@@ -198,7 +198,7 @@ jobs:
       - name: Assets | Upload
         uses: actions/upload-artifact@v3
         with:
-          name: assets
+          name: assets-binaries
           path: assets/**/*
   
   build_debian_packages:
@@ -218,7 +218,7 @@ jobs:
       - name: Setup | Download Assets
         uses: actions/download-artifact@v3
         with:
-          name: assets
+          name: assets-binaries
           path: assets
       - name: Debian | Build Package
         run: |
@@ -268,7 +268,12 @@ jobs:
   #     - name: Setup | Download Assets
   #       uses: actions/download-artifact@v3
   #       with:
-  #         name: assets
+  #         name: assets-binaries
+  #         path: assets
+  #     - name: Setup | Download Assets
+  #       uses: actions/download-artifact@v3
+  #       with:
+  #         name: assets-wheels
   #         path: assets
   #     - name: Assets | List
   #       run: find assets
