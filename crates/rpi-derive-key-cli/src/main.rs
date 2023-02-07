@@ -1,3 +1,5 @@
+#![allow(clippy::uninlined_format_args)]
+
 use std::fmt::Write;
 
 use clap::{Parser, Subcommand};

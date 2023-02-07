@@ -31,6 +31,7 @@
         "softprops",
         "thiserror",
         "TOCTTOU",
+        "uninlined",
         "unistd",
         "UNLCK",
         "vcio",
