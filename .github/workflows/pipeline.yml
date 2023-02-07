@@ -239,7 +239,7 @@ jobs:
             Repository: https://github.com/silitics/rpi-derive-key.git
             Description:
                 A utility for deriving secure device-specific keys on Raspberry Pi.
-            EOF
+          EOF
           cat > debian/lib/systemd/system/rpi-derive-key.service <<- EOF
             [Unit]
             Description=Initializes the private key in the Raspberry Pi's OTP memory.
@@ -250,7 +250,7 @@ jobs:
 
             [Install]
             WantedBy=multi-user.target
-            EOF
+          EOF
           find debian
           cat debian/DEBIAN/control
           cat debian/lib/systemd/system/rpi-derive-key.service
@@ -261,7 +261,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: assets-debs
-          path: assets/**/*
+          path: assets/*.deb
   
   create_github_release:
     runs-on: ubuntu-latest
