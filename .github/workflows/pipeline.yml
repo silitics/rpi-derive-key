@@ -51,6 +51,30 @@ jobs:
           use-cross: true
           command: clippy
           args: --target ${{ matrix.target }} -- -D warnings
+  
+  build-docs:
+    name: Build Docs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Setup | Checkout
+        uses: actions/checkout@v3
+      - name: Setup | Install Rust Toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+          target: aarch64-unknown-linux-gnu
+          override: true
+      - name: Build | Docs
+        uses: actions-rs/cargo@v1
+        with:
+          command: doc 
+          args: --lib --document-private-items --target aarch64-unknown-linux-gnu
+      - name: Pages | Upload Artifact
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: target/aarch64-unknown-linux-gnu/doc
+      - name: Pages | Deploy
+        uses: actions/deploy-pages@v1
 
   test:
     name: Run Tests
