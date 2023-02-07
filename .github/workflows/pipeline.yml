@@ -222,6 +222,7 @@ jobs:
           path: assets
       - name: Debian | Build Package
         run: |
+          set -exuo pipefail
           mkdir -p assets debian/usr/bin debian/DEBIAN debian/lib/systemd/system/
           pushd debian/usr/bin
           tar xvzf ../../../assets/rpi-derive-key_${{ matrix.target }}.tar.gz
@@ -234,6 +235,8 @@ jobs:
             Priority: optional
             Architecture: ${{ matrix.arch }}
             Maintainer: Silitics GmbH <support@silitics.com>
+            Homepage: https://github.com/silitics/rpi-derive-key
+            Repository: https://github.com/silitics/rpi-derive-key.git
             Description:
                 A utility for deriving secure device-specific keys on Raspberry Pi.
             EOF
@@ -257,42 +260,38 @@ jobs:
       - name: Assets | Upload
         uses: actions/upload-artifact@v3
         with:
-          name: assets
+          name: assets-debs
           path: assets/**/*
   
-  # create_github_release:
-  #   runs-on: ubuntu-latest
-  #   name: Create GitHub Release
-  #   needs: [build_linux_binaries]
-  #   steps:
-  #     - name: Setup | Download Assets
-  #       uses: actions/download-artifact@v3
-  #       with:
-  #         name: assets-binaries
-  #         path: assets
-  #     - name: Setup | Download Assets
-  #       uses: actions/download-artifact@v3
-  #       with:
-  #         name: assets-wheels
-  #         path: assets
-  #     - name: Assets | List
-  #       run: find assets
-  #     - name: Assets | Compute Checksums
-  #       run: >
-  #         for file in assets/*; do
-  #           sha256sum "${file}" | awk '{print $1}' > "${file}.sha256";
-  #         done
-  #     - name: Release | Get Version
-  #       id: get_version
-  #       run: |
-  #         tar xzvf assets/rpi-derive-key_x86_64-unknown-linux-musl.tar.gz
-  #         ./rpi-derive-key -V | awk '{print "version=" $2}' >> $GITHUB_OUTPUT
-  #     - name: GitHub | Create Release
-  #       uses: softprops/action-gh-release@v1
-  #       with:
-  #         files: assets/*
-  #         name: Release v${{ steps.get_version.outputs.version }}
-  #         tag_name: v${{ steps.get_version.outputs.version }}
+  create_github_release:
+    runs-on: ubuntu-latest
+    name: Create GitHub Release
+    needs: [build_python_wheels, build_linux_binaries, build_debian_packages]
+    steps:
+      - name: Setup | Checkout
+        uses: actions/checkout@v3
+      - name: Setup | Download Assets
+        uses: actions/download-artifact@v3
+        with:
+          path: assets
+      - name: Assets | List
+        run: find assets
+      - name: Assets | Compute Checksums
+        run: >
+          for file in assets/*; do
+            sha256sum "${file}" | awk '{print $1}' > "${file}.sha256";
+          done
+      - name: Release | Get Version
+        id: get_version
+        run: |
+          version=$(grep version Cargo.toml | head -1 | awk '{print $3}' | tr -d '"')
+          echo "version=${version}" >> $GITHUB_OUTPUT
+      # - name: GitHub | Create Release
+      #   uses: softprops/action-gh-release@v1
+      #   with:
+      #     files: assets/*
+      #     name: Release v${{ steps.get_version.outputs.version }}
+      #     tag_name: v${{ steps.get_version.outputs.version }}
   #
   # publish:
   #   name: Publish to PyPi
