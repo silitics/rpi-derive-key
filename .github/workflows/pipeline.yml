@@ -87,11 +87,12 @@ jobs:
 
   test:
     name: Run Tests
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     needs: [lint-rustfmt, lint-clippy]
     strategy:
       matrix:
         rust: [stable, "1.65"]
+        os: [ubuntu-latest, windows-latest]
     steps:
       - name: Setup | Checkout
         uses: actions/checkout@v3
@@ -177,7 +178,7 @@ jobs:
         with:
           use-cross: true
           command: build
-          # Use `build-std` to reduce the size of the final binary.
+          # We use `build-std` to reduce the size of the final binary.
           args: >
             --release
             --locked
@@ -194,6 +195,62 @@ jobs:
           pushd target/${{ matrix.target }}/release
           tar czvf ../../../assets/rpi-derive-key_${{ matrix.target }}.tar.gz rpi-derive-key
           popd
+      - name: Assets | List
+        run: find assets
+      - name: Assets | Upload
+        uses: actions/upload-artifact@v3
+        with:
+          name: assets
+          path: assets/**/*
+  
+  build_debian_packages:
+    name: Build Debian Packages
+    runs-on: ubuntu-latest
+    needs: [test]
+    strategy:
+      matrix:
+        include:
+          - target: aarch64-unknown-linux-musl
+            arch: arm64
+          - target: armv7-unknown-linux-musleabihf
+            arch: armhf
+    steps:
+      - name: Setup | Download Assets
+        uses: actions/download-artifact@v3
+        with:
+          name: assets
+          path: assets
+      - name: Debian | Prepare Package
+        run: |
+          mkdir -p assets debian/usr/bin debian/DEBIAN debian/lib/systemd/system/
+          pushd debian/usr/bin
+          tar xvzf ../../../assets/rpi-derive-key_${{ matrix.target }}.tar.gz
+          popd
+          version=$(grep version Cargo.toml | head -1 | awk '{print $3}' | tr -d '"')
+          cat > debian/DEBIAN/control <<- EOF
+            Package: rpi-derive-key
+            Version: $version
+            Section: utils
+            Priority: optional
+            Architecture: ${{ matrix.arch }}
+            Maintainer: Silitics GmbH <support@silitics.com>
+            Description: A utility for deriving secure device-specific keys on Raspberry Pi.
+          EOF
+          cat > debian/lib/systemd/system/rpi-derive-key.service <<- EOF
+            [Unit]
+            Description=A utility for deriving secure device-specific keys on Raspberry Pi.
+
+            [Service]
+            Type=oneshot
+            ExecStart=/usr/bin/rpi-derive-key init
+
+            [Install]
+            WantedBy=multi-user.target
+          EOF
+      - name: Debian | List Files
+        run: find debian
+      - name: Debian | Build Package
+        run: dpkg-deb --build debian assets/rpi-derive-key_${version}_${{ matrix.arch }}.deb
       - name: Assets | List
         run: find assets
       - name: Assets | Upload

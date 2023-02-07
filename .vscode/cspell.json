@@ -2,9 +2,11 @@
     "version": "0.2",
     "words": [
         "aarch",
+        "armhf",
         "armv",
         "clippy",
         "czvf",
+        "debian",
         "errno",
         "fcntl",
         "github",
@@ -17,6 +19,7 @@
         "MSRV",
         "musleabihf",
         "NONBLOCK",
+        "oneshot",
         "panicbit",
         "popd",
         "pushd",
@@ -37,6 +40,7 @@
         "UNLCK",
         "vcio",
         "WRLCK",
+        "xvzf",
         "xzvf"
     ]
 }
