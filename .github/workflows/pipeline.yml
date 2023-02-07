@@ -9,8 +9,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  lint:
-    name: Lint
+  lint-rustfmt:
+    name: Lint (Rustfmt)
     runs-on: ubuntu-latest
     steps:
       - name: Setup | Checkout
@@ -20,23 +20,43 @@ jobs:
         with:
           toolchain: nightly
           override: true
-          components: rustfmt, clippy
+          components: rustfmt
       - name: Lint | Rustfmt
         uses: actions-rs/cargo@v1
         continue-on-error: true
         with:
           command: fmt
           args: --all -- --check
+  
+  lint-clippy:
+    name: Lint (Clippy)
+    runs-on: ubuntu-latest
+    needs: [lint-rustfmt, lint-clippy]
+    strategy:
+      matrix:
+        target:
+          - x86_64-unknown-linux-gnu
+          - aarch64-unknown-linux-gnu
+    steps:
+      - name: Setup | Checkout
+        uses: actions/checkout@v3
+      - name: Setup | Install Rust Toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+          override: true
+          components: clippy
       - name: Lint | Clippy
         uses: actions-rs/cargo@v1
         with:
+          use-cross: true
           command: clippy
-          args: -- -D warnings
+          args: --target ${{ matrix.target }} -- -D warnings
 
   test:
     name: Run Tests
     runs-on: ubuntu-latest
-    needs: [lint]
+    needs: [lint-rustfmt, lint-clippy]
     strategy:
       matrix:
         rust: [stable, "1.65"]
@@ -76,7 +96,7 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         with:
           command: build
-          args: --release -o dist --find-interpreter
+          args: --release --locked -o dist --find-interpreter
           target: ${{ matrix.target }}
           manylinux: auto
           working-directory: python
@@ -86,14 +106,14 @@ jobs:
         with:
           command: build
           # Works on both Intel and ARM.
-          args: --release -o dist --universal2 --find-interpreter
+          args: --release --locked -o dist --universal2 --find-interpreter
           working-directory: python
       - name: Build | Wheel (Windows)
         uses: PyO3/maturin-action@v1
         if: matrix.os == 'windows-latest'
         with:
           command: build
-          args: --release -o dist --find-interpreter
+          args: --release --locked -o dist --find-interpreter
           working-directory: python
       - name: Assets | Upload
         uses: actions/upload-artifact@v3
@@ -128,6 +148,7 @@ jobs:
           # Use `build-std` to reduce the size of the final binary.
           args: >
             --release
+            --locked
             --bin rpi-derive-key
             --target=${{ matrix.target }}
             -Z build-std=std,panic_abort
