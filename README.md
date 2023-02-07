@@ -7,7 +7,7 @@
 <p align="center">
   <a href="https://pypi.python.org/pypi/rpi-derive-key"><img alt="PyPi Package" src="https://img.shields.io/pypi/v/rpi-derive-key.svg?label=pypi"></a>
   <a href="https://crates.io/crates/rpi-derive-key"><img alt="RPi Derive Rust Crate" src="https://img.shields.io/crates/v/rpi-derive-key?label=crates.io"></a>
-  <a href="https://github.com/silitics/rpi-derive-key/actions"><img alt="CI Workflow" src="https://img.shields.io/github/actions/workflow/status/silitics/rpi-derive-key/pipeline.yml?label=workflow"></a>
+  <a href="https://github.com/silitics/rpi-derive-key/actions"><img alt="CI Pipeline" src="https://img.shields.io/github/actions/workflow/status/silitics/rpi-derive-key/pipeline.yml?label=pipeline"></a>
 </p>
 
 ⚠️ **Caution:** This tool is based on storing a randomly generated _device secret_ in the [_One-Time Programmable_ (OTP) memory](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#otp-register-and-bit-definitions) of the Raspberry Pi SoC. The initialization of this secret is **irreversible**. Please **make sure you understand the provided security guarantees** before using it for anything serious.
