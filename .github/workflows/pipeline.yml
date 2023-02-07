@@ -55,7 +55,7 @@ jobs:
   build-docs:
     name: Build Docs
     runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && github.repository == 'silitics/rpi-derive-key'
+    # if: github.ref == 'refs/heads/main' && github.repository == 'silitics/rpi-derive-key'
     steps:
       - name: Setup | Checkout
         uses: actions/checkout@v3
