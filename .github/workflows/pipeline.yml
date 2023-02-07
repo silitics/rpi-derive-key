@@ -244,11 +244,12 @@ jobs:
           EOF
           cat > debian/lib/systemd/system/rpi-derive-key.service <<- EOF
           [Unit]
-          Description=Initializes the private key in the Raspberry Pi's OTP memory.
+          Description=Initialize the private key in the Raspberry Pi's OTP memory.
 
           [Service]
           Type=oneshot
-          ExecStart=/usr/bin/rpi-derive-key init
+          Environment="ARGS=%I"
+          ExecStart=/usr/bin/rpi-derive-key \$ARGS init
 
           [Install]
           WantedBy=multi-user.target
@@ -256,7 +257,7 @@ jobs:
           find debian
           cat debian/DEBIAN/control
           cat debian/lib/systemd/system/rpi-derive-key.service
-          dpkg-deb --build debian assets/rpi-derive-key_${version}_${{ matrix.arch }}.deb
+          dpkg-deb -Zgzip --build debian assets/rpi-derive-key_${version}_${{ matrix.arch }}.deb
       - name: Assets | List
         run: find assets
       - name: Assets | Upload
@@ -288,12 +289,13 @@ jobs:
         run: |
           version=$(grep version Cargo.toml | head -1 | awk '{print $3}' | tr -d '"')
           echo "version=${version}" >> $GITHUB_OUTPUT
-      # - name: GitHub | Create Release
-      #   uses: softprops/action-gh-release@v1
-      #   with:
-      #     files: assets/**/*
-      #     name: Release v${{ steps.get_version.outputs.version }}
-      #     tag_name: v${{ steps.get_version.outputs.version }}
+      - name: GitHub | Create Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/v') && github.event_name == 'create'
+        with:
+          files: assets/**/*
+          name: Release v${{ steps.get_version.outputs.version }}
+          tag_name: v${{ steps.get_version.outputs.version }}
   #
   # publish:
   #   name: Publish to PyPi
