@@ -213,6 +213,8 @@ jobs:
           - target: armv7-unknown-linux-musleabihf
             arch: armhf
     steps:
+      - name: Setup | Checkout
+        uses: actions/checkout@v3
       - name: Setup | Download Assets
         uses: actions/download-artifact@v3
         with:
