@@ -109,7 +109,6 @@ jobs:
   build_python_wheels:
     name: Build Python Wheels
     runs-on: ${{ matrix.os }}
-    needs: [test]
     strategy:
       matrix:
         include:
@@ -157,7 +156,6 @@ jobs:
   build_linux_binaries:
     name: Build Linux Binaries
     runs-on: ubuntu-latest
-    needs: [test]
     strategy:
       matrix:
         target:
