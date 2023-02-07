@@ -220,7 +220,7 @@ jobs:
         with:
           name: assets
           path: assets
-      - name: Debian | Prepare Package
+      - name: Debian | Build Package
         run: |
           mkdir -p assets debian/usr/bin debian/DEBIAN debian/lib/systemd/system/
           pushd debian/usr/bin
@@ -238,7 +238,7 @@ jobs:
           EOF
           cat > debian/lib/systemd/system/rpi-derive-key.service <<- EOF
             [Unit]
-            Description=A utility for deriving secure device-specific keys on Raspberry Pi.
+            Description=Initializes the private key in the Raspberry Pi's OTP memory.
 
             [Service]
             Type=oneshot
@@ -247,10 +247,10 @@ jobs:
             [Install]
             WantedBy=multi-user.target
           EOF
-      - name: Debian | List Files
-        run: find debian
-      - name: Debian | Build Package
-        run: dpkg-deb --build debian assets/rpi-derive-key_${version}_${{ matrix.arch }}.deb
+          find debian
+          cat debian/DEBIAN/control
+          cat debian/lib/systemd/system/rpi-derive-key.service
+          dpkg-deb --build debian assets/rpi-derive-key_${version}_${{ matrix.arch }}.deb
       - name: Assets | List
         run: find assets
       - name: Assets | Upload
