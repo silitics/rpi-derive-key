@@ -2,8 +2,11 @@
     "version": "0.2",
     "words": [
         "aarch",
+        "armhf",
         "armv",
+        "clippy",
         "czvf",
+        "debian",
         "errno",
         "fcntl",
         "github",
@@ -13,8 +16,10 @@
         "linux",
         "manylinux",
         "maturin",
+        "MSRV",
         "musleabihf",
         "NONBLOCK",
+        "oneshot",
         "panicbit",
         "popd",
         "pushd",
@@ -30,10 +35,12 @@
         "softprops",
         "thiserror",
         "TOCTTOU",
+        "uninlined",
         "unistd",
         "UNLCK",
         "vcio",
         "WRLCK",
+        "xvzf",
         "xzvf"
     ]
 }
