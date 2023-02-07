@@ -48,7 +48,6 @@ jobs:
       - name: Lint | Clippy
         uses: actions-rs/cargo@v1
         with:
-          use-cross: true
           command: clippy
           args: --target ${{ matrix.target }} -- -D warnings
   
@@ -56,6 +55,11 @@ jobs:
     name: Build Docs
     runs-on: ubuntu-latest
     # if: github.ref == 'refs/heads/main' && github.repository == 'silitics/rpi-derive-key'
+    # Required for upload to succeed.
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     steps:
       - name: Setup | Checkout
         uses: actions/checkout@v3
