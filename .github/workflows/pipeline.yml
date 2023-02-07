@@ -55,7 +55,7 @@ jobs:
   build-docs:
     name: Build Docs
     runs-on: ubuntu-latest
-    if: github.repository == 'silitics/rpi-derive-key'
+    if: github.ref == 'refs/heads/main' && github.repository == 'silitics/rpi-derive-key'
     steps:
       - name: Setup | Checkout
         uses: actions/checkout@v3
@@ -69,7 +69,7 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: doc 
-          args: --lib --document-private-items --target aarch64-unknown-linux-gnu
+          args: --workspace --document-private-items --target aarch64-unknown-linux-gnu
       - name: Pages | Upload Artifact
         uses: actions/upload-pages-artifact@v1
         with:
