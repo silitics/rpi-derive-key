@@ -16,6 +16,7 @@
         "rust-analyzer.rustfmt.extraArgs": [
             "+nightly"
         ],
+        "rust-analyzer.cargo.target": "aarch64-unknown-linux-gnu",
         "[markdown]": {
             "editor.formatOnSave": true,
         }
