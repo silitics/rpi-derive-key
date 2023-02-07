@@ -1,3 +1,5 @@
+#![allow(clippy::uninlined_format_args)] // Required because MSRV = 1.65.
+
 use std::fmt::Write;
 
 use clap::{Parser, Subcommand};

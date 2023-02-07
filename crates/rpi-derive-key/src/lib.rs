@@ -1,6 +1,7 @@
 //! # RPi Derive Key 🔑
 //!
 //! A utility crate for deriving secure device-specific keys on Raspberry Pi.
+#![allow(clippy::uninlined_format_args)] // Required because MSRV = 1.65.
 
 use std::io;
 
