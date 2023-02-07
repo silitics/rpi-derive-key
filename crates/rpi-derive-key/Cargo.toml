@@ -1,11 +1,12 @@
 [package]
 name = "rpi-derive-key"
-version = "0.1.0"
 description = "A utility crate for deriving secure device-specific keys on Raspberry Pi."
+version.workspace = true
 edition.workspace = true
 authors.workspace = true
 license.workspace = true
 repository.workspace = true
+rust-version.workspace = true
 
 [dependencies]
 hkdf = "0.12"  # PRIVATE
