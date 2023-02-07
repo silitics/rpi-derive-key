@@ -14,6 +14,7 @@
         "linux",
         "manylinux",
         "maturin",
+        "MSRV",
         "musleabihf",
         "NONBLOCK",
         "panicbit",

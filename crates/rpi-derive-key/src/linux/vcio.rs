@@ -1,6 +1,6 @@
 //! Low-level interface to Raspberry Pi's _Video Core IO_ (VCIO) device.
 
-use std::{io, marker::PhantomData, os::fd::RawFd, path::Path};
+use std::{io, marker::PhantomData, path::Path};
 
 use nix::{
     errno::Errno,
@@ -15,7 +15,7 @@ const VCIO_PATH: &str = "/dev/vcio";
 
 /// A handle to the VCIO device.
 #[derive(Debug)]
-pub(crate) struct Vcio(RawFd);
+pub(crate) struct Vcio(c_int);
 
 impl Vcio {
     /// Check whether the VCIO device exists.
@@ -92,7 +92,7 @@ fn to_io_error(error: Errno) -> io::Error {
 
 /// An exclusive lock on the VCIO device.
 pub(crate) struct VcioLock<'vcio> {
-    fd: RawFd,
+    fd: c_int,
     lock: nix::libc::flock,
     _phantom_vcio: PhantomData<&'vcio Vcio>,
 }
