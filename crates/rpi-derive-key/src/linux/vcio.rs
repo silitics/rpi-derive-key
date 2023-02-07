@@ -51,24 +51,26 @@ impl Vcio {
             "Invalid buffer size. Buffer is smaller than indicated."
         );
 
-        // /// The `ioctl` identifier of the property interface.
-        // const IOCTL_IDENTIFIER: u8 = 100;
-        // /// The `ioctl` sequence number of the property interface.
-        // const IOCTL_SEQ_PROPERTY: u8 = 0;
-        //
-        // nix::ioctl_readwrite! {
-        //     /// Raw `ioctl` call.
-        //     ioctl_property, IOCTL_IDENTIFIER, IOCTL_SEQ_PROPERTY, c_char
-        // }
+        /// The `ioctl` identifier of the property interface.
+        const IOCTL_IDENTIFIER: u8 = 100;
+        /// The `ioctl` sequence number of the property interface.
+        const IOCTL_SEQ_PROPERTY: u8 = 0;
 
-        // We have to use `ioctl_readwrite_bad` here because `ioctl_readwrite` does
-        // not seam to work for the 64-bit version of Raspberry Pi OS.
+        // We have to cast to `c_int` to make this work on 32-bit and 64-bit.
+        const IOCTL_REQUEST_CODE: c_int = nix::request_code_readwrite!(
+            IOCTL_IDENTIFIER,
+            IOCTL_SEQ_PROPERTY,
+            std::mem::size_of::<*mut c_char>()
+        ) as c_int;
+
+        // We have to use `ioctl_readwrite_bad` here because the code is computed with
+        // `*mut c_char` but the actual type needs to be `c_char`.
         nix::ioctl_readwrite_bad! {
             /// Raw `ioctl` call.
             ioctl_property,
-            -1073191936i32, // 0xc0086400
+            IOCTL_REQUEST_CODE,
             c_char
-        }
+        };
 
         ioctl_property(self.0, buffer.as_mut_ptr() as *mut c_char).map_err(to_io_error)
     }
