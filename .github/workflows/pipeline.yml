@@ -1,0 +1,151 @@
+name: Pipeline
+
+on:
+  push:
+    branches:
+      - main
+      - ci
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build_python_wheels:
+    name: Build Python Wheels
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+          - os: ubuntu-latest
+            target: aarch64-unknown-linux-gnu
+          - os: ubuntu-latest
+            target: armv7-unknown-linux-gnueabihf
+          - os: macos-latest
+          - os: windows-latest
+    steps:
+      - name: Setup | Checkout
+        uses: actions/checkout@v3
+      - name: Build | Wheel (Linux) 
+        uses: PyO3/maturin-action@v1
+        if: matrix.os == 'ubuntu-latest'
+        with:
+          command: build
+          args: --release -o dist --find-interpreter
+          target: ${{ matrix.target }}
+          manylinux: auto
+          working-directory: python
+      - name: Build | Wheel (MacOS)
+        uses: PyO3/maturin-action@v1
+        if: matrix.os == 'macos-latest'
+        with:
+          command: build
+          # Works on both Intel and ARM.
+          args: --release -o dist --universal2 --find-interpreter
+          working-directory: python
+      - name: Build | Wheel (Windows)
+        uses: PyO3/maturin-action@v1
+        if: matrix.os == 'windows-latest'
+        with:
+          command: build
+          args: --release -o dist --find-interpreter
+          working-directory: python
+      - name: Assets | Upload
+        uses: actions/upload-artifact@v3
+        with:
+          name: assets
+          path: python/dist/**/*
+
+  build_linux_binaries:
+    name: Build Linux Binaries
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target:
+          - x86_64-unknown-linux-musl
+          - aarch64-unknown-linux-musl
+          - armv7-unknown-linux-musleabihf
+    steps:
+      - name: Setup | Checkout
+        uses: actions/checkout@v3
+      - name: Setup | Install Rust Toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: nightly
+          override: true
+          components: rust-src
+      - name: Build | Standalone Binary
+        uses: actions-rs/cargo@v1
+        with:
+          use-cross: true
+          command: build
+          # Use `build-std` to reduce the size of the final binary.
+          args: >
+            --release
+            --bin rpi-derive-key
+            --target=${{ matrix.target }}
+            -Z build-std=std,panic_abort
+            -Z build-std-features=panic_immediate_abort
+      - name: Info | Binary Size
+        run: du -h target/${{ matrix.target }}/release/rpi-derive-key
+      # We package the binary into a `.tar.gz` such that the permissions are preserved.
+      - name: Assets | Prepare
+        run: |
+          mkdir assets
+          pushd target/${{ matrix.target }}/release
+          tar czvf ../../../assets/rpi-derive-key_${{ matrix.target }}.tar.gz rpi-derive-key
+          popd
+      - name: Assets | List
+        run: find assets
+      - name: Assets | Upload
+        uses: actions/upload-artifact@v3
+        with:
+          name: assets
+          path: assets/**/*
+  
+  # create_github_release:
+  #   runs-on: ubuntu-latest
+  #   name: Create GitHub Release
+  #   needs: [build_linux_binaries]
+  #   steps:
+  #     - name: Setup | Download Assets
+  #       uses: actions/download-artifact@v3
+  #       with:
+  #         name: assets
+  #         path: assets
+  #     - name: Assets | List
+  #       run: find assets
+  #     - name: Assets | Compute Checksums
+  #       run: >
+  #         for file in assets/*; do
+  #           sha256sum "${file}" | awk '{print $1}' > "${file}.sha256";
+  #         done
+  #     - name: Release | Get Version
+  #       id: get_version
+  #       run: |
+  #         tar xzvf assets/rpi-derive-key_x86_64-unknown-linux-musl.tar.gz
+  #         ./rpi-derive-key -V | awk '{print "version=" $2}' >> $GITHUB_OUTPUT
+  #     - name: GitHub | Create Release
+  #       uses: softprops/action-gh-release@v1
+  #       with:
+  #         files: assets/*
+  #         name: Release v${{ steps.get_version.outputs.version }}
+  #         tag_name: v${{ steps.get_version.outputs.version }}
+  #
+  # publish:
+  #   name: Publish to PyPi
+  #   runs-on: ubuntu-latest
+  #   environment: PyPi
+  #   if: github.event_name == 'create' && startsWith(github.ref, 'refs/tags/v')
+  #   needs: [ macos, windows, linux ]
+  #   steps:
+  #     - uses: actions/download-artifact@v3
+  #       with:
+  #         name: wheels
+  #         path: dist
+  #     - run: ls -l dist
+  #     - name: Publish Wheels to PyPI
+  #       uses: pypa/gh-action-pypi-publish@release/v1
+  #       with:
+  #         skip_existing: true
+  #         password: ${{ secrets.PYPI_API_TOKEN }}
