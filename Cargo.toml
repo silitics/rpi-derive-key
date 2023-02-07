@@ -7,6 +7,7 @@ edition = "2021"
 authors = ["Silitics GmbH <info@silitics.com>"]
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/silitics/rpi-derive-key"
+rust-version = "1.65"
 
 [profile.release]
 # Change various parameters to reduce the size of the final binary.
