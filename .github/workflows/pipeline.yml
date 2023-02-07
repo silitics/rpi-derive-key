@@ -55,6 +55,7 @@ jobs:
   build-docs:
     name: Build Docs
     runs-on: ubuntu-latest
+    if: github.repository == 'silitics/rpi-derive-key'
     steps:
       - name: Setup | Checkout
         uses: actions/checkout@v3

@@ -7,6 +7,7 @@ rust-version.workspace = true
 [lib]
 name = "rpi_derive_key"
 crate-type = ["cdylib"]
+doc = false
 
 [dependencies]
 pyo3 = { version = "0.18.0", features = ["extension-module", "abi3-py37"] }
