@@ -234,8 +234,9 @@ jobs:
             Priority: optional
             Architecture: ${{ matrix.arch }}
             Maintainer: Silitics GmbH <support@silitics.com>
-            Description: A utility for deriving secure device-specific keys on Raspberry Pi.
-          EOF
+            Description:
+                A utility for deriving secure device-specific keys on Raspberry Pi.
+            EOF
           cat > debian/lib/systemd/system/rpi-derive-key.service <<- EOF
             [Unit]
             Description=Initializes the private key in the Raspberry Pi's OTP memory.
@@ -246,7 +247,7 @@ jobs:
 
             [Install]
             WantedBy=multi-user.target
-          EOF
+            EOF
           find debian
           cat debian/DEBIAN/control
           cat debian/lib/systemd/system/rpi-derive-key.service
