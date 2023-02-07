@@ -3,16 +3,21 @@
     "words": [
         "aarch",
         "armv",
+        "czvf",
         "errno",
         "fcntl",
         "github",
+        "gnueabihf",
         "hkdf",
         "libc",
         "linux",
         "manylinux",
         "maturin",
+        "musleabihf",
         "NONBLOCK",
         "panicbit",
+        "popd",
+        "pushd",
         "pypa",
         "pypi",
         "readwrite",
@@ -21,11 +26,14 @@
         "serayuzgur",
         "SETLK",
         "SETLKW",
+        "silitics",
+        "softprops",
         "thiserror",
         "TOCTTOU",
         "unistd",
         "UNLCK",
         "vcio",
-        "WRLCK"
+        "WRLCK",
+        "xzvf"
     ]
 }
