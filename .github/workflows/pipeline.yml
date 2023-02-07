@@ -229,27 +229,27 @@ jobs:
           popd
           version=$(grep version Cargo.toml | head -1 | awk '{print $3}' | tr -d '"')
           cat > debian/DEBIAN/control <<- EOF
-            Package: rpi-derive-key
-            Version: $version
-            Section: utils
-            Priority: optional
-            Architecture: ${{ matrix.arch }}
-            Maintainer: Silitics GmbH <support@silitics.com>
-            Homepage: https://github.com/silitics/rpi-derive-key
-            Repository: https://github.com/silitics/rpi-derive-key.git
-            Description:
-                A utility for deriving secure device-specific keys on Raspberry Pi.
+          Package: rpi-derive-key
+          Version: $version
+          Section: utils
+          Priority: optional
+          Architecture: ${{ matrix.arch }}
+          Maintainer: Silitics GmbH <support@silitics.com>
+          Homepage: https://github.com/silitics/rpi-derive-key
+          Repository: https://github.com/silitics/rpi-derive-key.git
+          Description:
+              A utility for deriving secure device-specific keys on Raspberry Pi.
           EOF
           cat > debian/lib/systemd/system/rpi-derive-key.service <<- EOF
-            [Unit]
-            Description=Initializes the private key in the Raspberry Pi's OTP memory.
+          [Unit]
+          Description=Initializes the private key in the Raspberry Pi's OTP memory.
 
-            [Service]
-            Type=oneshot
-            ExecStart=/usr/bin/rpi-derive-key init
+          [Service]
+          Type=oneshot
+          ExecStart=/usr/bin/rpi-derive-key init
 
-            [Install]
-            WantedBy=multi-user.target
+          [Install]
+          WantedBy=multi-user.target
           EOF
           find debian
           cat debian/DEBIAN/control
