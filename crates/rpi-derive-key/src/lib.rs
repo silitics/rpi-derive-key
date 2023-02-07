@@ -4,7 +4,6 @@
 
 use std::io;
 
-use rand::Rng;
 use thiserror::Error;
 
 #[cfg(target_os = "linux")]
@@ -21,7 +20,9 @@ pub fn is_raspberry_pi() -> bool {
 }
 
 /// Randomly generate a secret key to store in OTP memory.
+#[cfg(target_os = "linux")]
 fn generate_secret() -> [u8; 32] {
+    use rand::Rng;
     rand::thread_rng().gen()
 }
 
@@ -90,7 +91,7 @@ impl DeriverBuilder {
 
     /// Build a [`Deriver`].
     pub fn build(self) -> Result<Deriver, BuildError> {
-        let salt = self.salt.as_ref().map(Vec::as_slice);
+        let salt = self.salt.as_deref();
         if let Ok(secret) = std::env::var("FAKE_RPI_DERIVE_KEY_SECRET") {
             // Return a `Deriver` based on the fake key.
             eprintln!("Warning! Using fake secret.");
@@ -123,7 +124,7 @@ impl DeriverBuilder {
         }
         #[cfg(not(target_os = "linux"))]
         {
-            return Err(BuildError::Uninitialized);
+            Err(BuildError::Uninitialized)
         }
     }
 }
@@ -160,10 +161,10 @@ pub fn status() -> Result<Status, io::Error> {
     }
     #[cfg(not(target_os = "linux"))]
     {
-        return Ok(Status {
+        Ok(Status {
             has_customer_otp: false,
             has_private_key: std::env::var("FAKE_RPI_DERIVE_KEY_SECRET").is_ok(),
-        });
+        })
     }
 }
 
