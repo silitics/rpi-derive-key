@@ -24,7 +24,7 @@ build TARGET="aarch64-unknown-linux-musl":
         export CARGO_TARGET_AARCH64_UNKNOWN_LINUX_MUSL_STRIP=aarch64-unknown-linux-musl-strip
     fi
 
-    cargo build --release --target {{TARGET}}
+    cargo build --bin rpi-derive-key --release --target {{TARGET}}
 
 # Run `rpi-derive-key` with a fake device-specific secret.
 run *ARGS:
