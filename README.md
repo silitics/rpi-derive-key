@@ -28,6 +28,18 @@ If you are interested in commercial support, [please contact us](mailto:support@
 
 [Python Package Documentation](https://github.com/silitics/rpi-derive-key/blob/main/python/rpi_derive_key.pyi)
 
+Install the latest version on 32-bit Raspberry Pi:
+
+```
+curl -L https://github.com/silitics/rpi-derive-key/releases/latest/download/rpi-derive-key_armv7-unknown-linux-musleabihf.tar.gz | tar xzvf -
+```
+
+Install the latest version on 64-bit Raspberry Pi:
+
+```
+curl -L https://github.com/silitics/rpi-derive-key/releases/latest/download/rpi-derive-key_aarch64-unknown-linux-musl.tar.gz | tar xzvf -
+```
+
 ### Initialization of the Device Secret
 
 Irreversibly initialize the device secret:
