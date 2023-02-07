@@ -1,7 +1,7 @@
 [package]
 name = "rpi-derive-key-cli"
-version = "0.1.0"
 description = "A utility for deriving secure device-specific keys on Raspberry Pi."
+version.workspace = true
 edition.workspace = true
 authors.workspace = true
 license.workspace = true
