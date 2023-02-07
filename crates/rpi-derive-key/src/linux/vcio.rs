@@ -11,7 +11,7 @@ use nix::{
 };
 
 /// The path to the VCIO device.
-const VCIO_PATH: &'static str = "/dev/vcio";
+const VCIO_PATH: &str = "/dev/vcio";
 
 /// A handle to the VCIO device.
 #[derive(Debug)]
@@ -35,6 +35,7 @@ impl Vcio {
     /// Obtain an exclusive lock on the VCIO device.
     ///
     /// Reduces the risk of TOCTTOU race conditions when writing OTP values.
+    #[allow(dead_code)]
     pub(crate) fn lock(&self) -> Result<VcioLock<'_>, io::Error> {
         VcioLock::lock(self)
     }
