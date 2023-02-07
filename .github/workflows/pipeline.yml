@@ -73,7 +73,10 @@ jobs:
         uses: actions-rs/cargo@v1
         with:
           command: doc 
-          args: --workspace --lib --document-private-items --target aarch64-unknown-linux-gnu
+          args: >
+            --workspace --lib --document-private-items
+            --target aarch64-unknown-linux-gnu
+            --exclude rpi-derive-key-python
       - name: Pages | Upload Artifact
         uses: actions/upload-pages-artifact@v1
         with:
