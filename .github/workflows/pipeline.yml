@@ -206,7 +206,7 @@ jobs:
   build_debian_packages:
     name: Build Debian Packages
     runs-on: ubuntu-latest
-    needs: [test]
+    needs: [build_linux_binaries]
     strategy:
       matrix:
         include:
