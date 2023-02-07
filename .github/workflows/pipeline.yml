@@ -48,6 +48,8 @@ jobs:
       - name: Lint | Clippy
         uses: actions-rs/cargo@v1
         with:
+          # We need to use `cross` to avoid spurious errors.
+          use-cross: true
           command: clippy
           args: --target ${{ matrix.target }} -- -D warnings
   
