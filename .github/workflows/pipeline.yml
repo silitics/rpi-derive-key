@@ -56,6 +56,10 @@ jobs:
   build-docs:
     name: Build Docs
     runs-on: ubuntu-latest
+    # Cancel previous runs which are still in progress.
+    concurrency:
+      group: docs
+      cancel-in-progress: true
     # Required for upload to succeed.
     permissions:
       contents: read
