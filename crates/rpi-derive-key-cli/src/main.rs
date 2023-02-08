@@ -25,6 +25,7 @@ struct Args {
 enum Command {
     /// Print the status of the OTP registers and key derivation mechanism.
     Status,
+    Check,
     /// Irreversibly initialize the OTP registers of the Raspberry Pi.
     Init,
     /// Derive a hardware-specific key using the provided information.
@@ -35,7 +36,9 @@ enum Command {
         info: String,
     },
     /// Derives a UUID version 4 using the provided info material.
-    Uuid { info: String },
+    Uuid {
+        info: String,
+    },
 }
 
 fn main() {
@@ -78,5 +81,6 @@ fn main() {
             let id = uuid::Builder::from_random_bytes(out).into_uuid();
             println!("{}", id);
         }
+        Command::Check => todo!(),
     }
 }
