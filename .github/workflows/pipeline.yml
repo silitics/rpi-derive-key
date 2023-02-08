@@ -153,7 +153,7 @@ jobs:
       - name: Assets | Upload
         uses: actions/upload-artifact@v3
         with:
-          name: assets-wheels
+          name: wheels
           path: python/dist/**/*
 
   build_linux_binaries:
@@ -162,10 +162,13 @@ jobs:
     needs: [test]
     strategy:
       matrix:
-        target:
-          - x86_64-unknown-linux-musl
-          - aarch64-unknown-linux-musl
-          - armv7-unknown-linux-musleabihf
+        include:
+          - target: x86_64-unknown-linux-musl
+            arch: amd64
+          - target: aarch64-unknown-linux-musl
+            arch: arm64
+          - target: armv7-unknown-linux-musleabihf
+            arch: armhf
     steps:
       - name: Setup | Checkout
         uses: actions/checkout@v3
@@ -195,14 +198,14 @@ jobs:
         run: |
           mkdir assets
           pushd target/${{ matrix.target }}/release
-          tar czvf ../../../assets/rpi-derive-key_${{ matrix.target }}.tar.gz rpi-derive-key
+          tar czvf ../../../assets/rpi-derive-key_${{ matrix.arch }}.tar.gz rpi-derive-key
           popd
       - name: Assets | List
         run: find assets
       - name: Assets | Upload
         uses: actions/upload-artifact@v3
         with:
-          name: assets-binaries
+          name: assets
           path: assets/**/*
   
   build_debian_packages:
@@ -211,25 +214,21 @@ jobs:
     needs: [build_linux_binaries]
     strategy:
       matrix:
-        include:
-          - target: aarch64-unknown-linux-musl
-            arch: arm64
-          - target: armv7-unknown-linux-musleabihf
-            arch: armhf
+        arch: [arm64, armhf]
     steps:
       - name: Setup | Checkout
         uses: actions/checkout@v3
-      - name: Setup | Download Binaries
+      - name: Setup | Download Assets
         uses: actions/download-artifact@v3
         with:
-          name: assets-binaries
+          name: assets
           path: assets
       - name: Debian | Build Package
         run: |
           set -exuo pipefail
           mkdir -p assets debian/usr/bin debian/DEBIAN debian/lib/systemd/system/
           pushd debian/usr/bin
-          tar xvzf ../../../assets/rpi-derive-key_${{ matrix.target }}.tar.gz
+          tar xvzf ../../../assets/rpi-derive-key_${{ matrix.arch }}.tar.gz
           popd
           version=$(grep version Cargo.toml | head -1 | awk '{print $3}' | tr -d '"')
           cat > debian/DEBIAN/control <<- EOF
@@ -259,13 +258,13 @@ jobs:
           find debian
           cat debian/DEBIAN/control
           cat debian/lib/systemd/system/rpi-derive-key.service
-          dpkg-deb -Zgzip --build debian assets/rpi-derive-key_${version}_${{ matrix.arch }}.deb
+          dpkg-deb -Zgzip --build debian assets/rpi-derive-key_${{ matrix.arch }}.deb
       - name: Assets | List
         run: find assets
       - name: Assets | Upload
         uses: actions/upload-artifact@v3
         with:
-          name: assets-debs
+          name: assets
           path: assets/*.deb
   
   create_github_release:
@@ -278,6 +277,7 @@ jobs:
       - name: Setup | Download Assets
         uses: actions/download-artifact@v3
         with:
+          name: assets
           path: assets
       - name: Assets | List
         run: find assets
@@ -307,7 +307,7 @@ jobs:
       - name: Setup | Download Wheels
         uses: actions/download-artifact@v3
         with:
-          name: assets-wheels
+          name: wheels
           path: dist
       - name: Info | List Wheels
         run: ls -l dist
