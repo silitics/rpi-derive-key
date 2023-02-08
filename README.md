@@ -5,11 +5,12 @@
     A utility for deriving secure device-specific keys on Raspberry Pi.
 </h4>
 <p align="center">
-  <a href="https://pypi.python.org/pypi/rpi-derive-key"><img alt="PyPi Package" src="https://img.shields.io/pypi/v/rpi-derive-key.svg?label=pypi"></a>
-  <a href="https://crates.io/crates/rpi-derive-key"><img alt="RPi Derive Rust Crate" src="https://img.shields.io/crates/v/rpi-derive-key?label=crates.io"></a>
+  <a href="https://github.com/silitics/rpi-derive-key/tree/readme#%EF%B8%8F-licensing"><img alt="License: MIT OR Apache 2.0" src="https://img.shields.io/crates/l/rpi-derive-key"></a>
   <a href="https://github.com/silitics/rpi-derive-key/actions"><img alt="CI Pipeline" src="https://img.shields.io/github/actions/workflow/status/silitics/rpi-derive-key/pipeline.yml?label=pipeline"></a>
   <a href="https://github.com/silitics/rpi-derive-key/releases/latest/download/rpi-derive-key_arm64.deb"><img alt="Latest ARM64 Debian Package" src="https://img.shields.io/static/v1?label=deb arm64&message=latest&color=blue"></a>
-  <a href="https://github.com/silitics/rpi-derive-key/releases/latest/download/rpi-derive-key_armhf.deb"><img alt="Latest ARMHF Debian Package" src="https://img.shields.io/static/v1?label=deb armhf&message=latest&color=blue"></a>
+  <a href="https://github.com/silitics/rpi-derive-key/releases/latest/download/rpi-derive-key_armhf.deb"><img alt="Latest ARMHF Debian Package" src="https://img.shields.io/static/v1?label=deb armhf&message=latest&color=blue"></a>  
+  <a href="https://pypi.python.org/pypi/rpi-derive-key"><img alt="PyPi Package" src="https://img.shields.io/pypi/v/rpi-derive-key.svg?label=pypi"></a>
+  <a href="https://crates.io/crates/rpi-derive-key"><img alt="RPi Derive Rust Crate" src="https://img.shields.io/crates/v/rpi-derive-key?label=crates.io"></a>  
 </p>
 
 ⚠️ **Caution:** This tool is based on storing a randomly generated _device secret_ in the [_One-Time Programmable_ (OTP) memory](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#otp-register-and-bit-definitions) of the Raspberry Pi SoC. The initialization of this secret is **irreversible**. Please **make sure you understand the provided security guarantees** before using it for anything serious.
@@ -68,6 +69,28 @@ rpi-derive-key --customer-otp init
 
 The switch `--customer-otp` must subsequently be provided to all commands.
 
+The Debian package comes with a Systemd service for initializing the device secret during the boot process. This is useful to initialize devices with an image or SD card. To enable this service, run:
+
+```
+sudo systemctl enable rpi-derive-key
+```
+
+### Status Information and Checks
+
+To print status information, run:
+
+```
+rpi-derive-key status
+```
+
+To check that the secret has been properly initialized, run:
+
+```
+rpi-derive-key check
+```
+
+This is useful when using RPi Derive Key in a script.
+
 ### Deriving a Key
 
 To derive a key and print it in hex representation use
@@ -108,9 +131,9 @@ Setting this variable also bypasses initialization via `rpi-derive-key init`.
 
 ### Example Use Case
 
-Imagine you would like to derive a unique public ID and a secret identification token for each device.
+Imagine you would like to derive a unique public id and a secret identification token for each device.
 
-To derive a unique public device ID using `device.id` as `<INFO>` run:
+To derive a unique public device id using `device.id` as `<INFO>` run:
 
 ```
 rpi-derive-key uuid device.id
@@ -118,7 +141,7 @@ rpi-derive-key uuid device.id
 
 You can now safely use the resulting UUID as a public device identifier. You do not have to keep it secret because it is impossible to reconstruct other keys or the device secret from it.
 
-In addition to the public ID, you can derive a 256-bit (32 bytes) secret token with:
+In addition to the public id, you can derive a 256-bit (32 bytes) secret token with:
 
 ```
 rpi-derive-key hex 32 device.secret.token
