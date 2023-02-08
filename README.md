@@ -131,9 +131,9 @@ Setting this variable also bypasses initialization via `rpi-derive-key init`.
 
 ### Example Use Case
 
-Imagine you would like to derive a unique public ID and a secret identification token for each device.
+Imagine you would like to derive a unique public id and a secret identification token for each device.
 
-To derive a unique public device ID using `device.id` as `<INFO>` run:
+To derive a unique public device id using `device.id` as `<INFO>` run:
 
 ```
 rpi-derive-key uuid device.id
@@ -141,7 +141,7 @@ rpi-derive-key uuid device.id
 
 You can now safely use the resulting UUID as a public device identifier. You do not have to keep it secret because it is impossible to reconstruct other keys or the device secret from it.
 
-In addition to the public ID, you can derive a 256-bit (32 bytes) secret token with:
+In addition to the public id, you can derive a 256-bit (32 bytes) secret token with:
 
 ```
 rpi-derive-key hex 32 device.secret.token
