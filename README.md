@@ -74,6 +74,22 @@ The Debian package comes with a Systemd service for initializing the device secr
 sudo systemctl enable rpi-derive-key
 ```
 
+### Status Information and Checks
+
+To print status information:
+
+```
+rpi-derive-key status
+```
+
+To check that the secret has been properly initialized:
+
+```
+rpi-derive-key check
+```
+
+This is useful when using RPi Derive Key in a script.
+
 ### Deriving a Key
 
 To derive a key and print it in hex representation use
