@@ -68,7 +68,7 @@ rpi-derive-key --customer-otp init
 
 The switch `--customer-otp` must subsequently be provided to all commands.
 
-The Debian package comes with a Systemd service for initializing the device secret during the boot process. To enable this service, run:
+The Debian package comes with a Systemd service for initializing the device secret during the boot process. This is useful to initialize devices with an image or SD card. To enable this service, run:
 
 ```
 sudo systemctl enable rpi-derive-key
