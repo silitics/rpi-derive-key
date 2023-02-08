@@ -26,21 +26,23 @@ If you are interested in commercial support, [please contact us](mailto:support@
 
 ## 🧑‍💻 Usage
 
-[Rust Crate Documentation](https://docs.rs/rpi-derive-key/)
-
-[Python Package Documentation](https://github.com/silitics/rpi-derive-key/blob/main/python/rpi_derive_key.pyi)
-
-Install the latest version on 32-bit Raspberry Pi:
+The easiest way to properly install RPi Derive Key on a Raspberry Pi is via the official Debian packages. On a 32-bit Raspberry Pi OS (`armhf`) run:
 
 ```
-curl -L https://github.com/silitics/rpi-derive-key/releases/latest/download/rpi-derive-key_armhf.tar.gz | tar xzvf -
+wget https://github.com/silitics/rpi-derive-key/releases/latest/download/rpi-derive-key_armhf.deb
+sudo dpkg --install rpi-derive-key_armhf.deb
 ```
 
-Install the latest version on 64-bit Raspberry Pi:
+On a 64-bit Raspberry Pi OS (`arm64`) run:
 
 ```
-curl -L https://github.com/silitics/rpi-derive-key/releases/latest/download/rpi-derive-key_arm64.tar.gz | tar xzvf -
+wget https://github.com/silitics/rpi-derive-key/releases/latest/download/rpi-derive-key_arm64.deb
+sudo dpkg --install rpi-derive-key_arm64.deb
 ```
+
+Note that the Debian packages do not include the Python package. They merely contain the command line tool and a Systemd service for initializing the device secret. The Python package can be installed as usual via `pip` or added as a dependency to a Python project. The Python package is also available for MacOS, Windows, and `x86_64` Linux. On these platforms, which are not Raspberry Pi's, the device secret must be faked by setting the `FAKE_RPI_DERIVE_KEY_SECRET` environment variable. The Python package is documented by a [type stub](https://github.com/silitics/rpi-derive-key/blob/main/python/rpi_derive_key.pyi).
+
+The documentation of the Rust crate is [available on docs.rs](https://docs.rs/rpi-derive-key/).
 
 ### Initialization of the Device Secret
 
