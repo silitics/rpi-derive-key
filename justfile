@@ -34,4 +34,4 @@ run *ARGS:
 
     export FAKE_RPI_DERIVE_KEY_SECRET=debug
 
-    cargo run -- {{ARGS}}
+    cargo run --bin rpi-derive-key -- {{ARGS}}
