@@ -6,9 +6,9 @@
 </h4>
 <p align="center">
   <a href="https://github.com/silitics/rpi-derive-key/tree/readme#%EF%B8%8F-licensing"><img alt="License: MIT OR Apache 2.0" src="https://img.shields.io/crates/l/rpi-derive-key"></a>
-  <a href="https://github.com/silitics/rpi-derive-key/releases/latest/download/rpi-derive-key_arm64.deb"><img alt="Latest ARM64 Debian Package" src="https://img.shields.io/static/v1?label=deb arm64&message=latest&color=blue"></a>
-  <a href="https://github.com/silitics/rpi-derive-key/releases/latest/download/rpi-derive-key_armhf.deb"><img alt="Latest ARMHF Debian Package" src="https://img.shields.io/static/v1?label=deb armhf&message=latest&color=blue"></a>
   <a href="https://github.com/silitics/rpi-derive-key/actions"><img alt="CI Pipeline" src="https://img.shields.io/github/actions/workflow/status/silitics/rpi-derive-key/pipeline.yml?label=pipeline"></a>
+  <a href="https://github.com/silitics/rpi-derive-key/releases/latest/download/rpi-derive-key_arm64.deb"><img alt="Latest ARM64 Debian Package" src="https://img.shields.io/static/v1?label=deb arm64&message=latest&color=blue"></a>
+  <a href="https://github.com/silitics/rpi-derive-key/releases/latest/download/rpi-derive-key_armhf.deb"><img alt="Latest ARMHF Debian Package" src="https://img.shields.io/static/v1?label=deb armhf&message=latest&color=blue"></a>  
   <a href="https://pypi.python.org/pypi/rpi-derive-key"><img alt="PyPi Package" src="https://img.shields.io/pypi/v/rpi-derive-key.svg?label=pypi"></a>
   <a href="https://crates.io/crates/rpi-derive-key"><img alt="RPi Derive Rust Crate" src="https://img.shields.io/crates/v/rpi-derive-key?label=crates.io"></a>  
 </p>
