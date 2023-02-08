@@ -76,13 +76,13 @@ sudo systemctl enable rpi-derive-key
 
 ### Status Information and Checks
 
-To print status information:
+To print status information, run:
 
 ```
 rpi-derive-key status
 ```
 
-To check that the secret has been properly initialized:
+To check that the secret has been properly initialized, run:
 
 ```
 rpi-derive-key check
