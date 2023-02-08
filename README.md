@@ -8,6 +8,8 @@
   <a href="https://pypi.python.org/pypi/rpi-derive-key"><img alt="PyPi Package" src="https://img.shields.io/pypi/v/rpi-derive-key.svg?label=pypi"></a>
   <a href="https://crates.io/crates/rpi-derive-key"><img alt="RPi Derive Rust Crate" src="https://img.shields.io/crates/v/rpi-derive-key?label=crates.io"></a>
   <a href="https://github.com/silitics/rpi-derive-key/actions"><img alt="CI Pipeline" src="https://img.shields.io/github/actions/workflow/status/silitics/rpi-derive-key/pipeline.yml?label=pipeline"></a>
+  <a href="https://github.com/silitics/rpi-derive-key/releases/latest/download/rpi-derive-key_arm64.deb"><img alt="Latest ARM64 Debian Package" src="https://img.shields.io/static/v1?label=deb arm64&message=latest&color=blue"></a>
+  <a href="https://github.com/silitics/rpi-derive-key/releases/latest/download/rpi-derive-key_armhf.deb"><img alt="Latest ARMHF Debian Package" src="https://img.shields.io/static/v1?label=deb armhf&message=latest&color=blue"></a>
 </p>
 
 ⚠️ **Caution:** This tool is based on storing a randomly generated _device secret_ in the [_One-Time Programmable_ (OTP) memory](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#otp-register-and-bit-definitions) of the Raspberry Pi SoC. The initialization of this secret is **irreversible**. Please **make sure you understand the provided security guarantees** before using it for anything serious.
@@ -31,13 +33,13 @@ If you are interested in commercial support, [please contact us](mailto:support@
 Install the latest version on 32-bit Raspberry Pi:
 
 ```
-curl -L https://github.com/silitics/rpi-derive-key/releases/latest/download/rpi-derive-key_armv7-unknown-linux-musleabihf.tar.gz | tar xzvf -
+curl -L https://github.com/silitics/rpi-derive-key/releases/latest/download/rpi-derive-key_armhf.tar.gz | tar xzvf -
 ```
 
 Install the latest version on 64-bit Raspberry Pi:
 
 ```
-curl -L https://github.com/silitics/rpi-derive-key/releases/latest/download/rpi-derive-key_aarch64-unknown-linux-musl.tar.gz | tar xzvf -
+curl -L https://github.com/silitics/rpi-derive-key/releases/latest/download/rpi-derive-key_arm64.tar.gz | tar xzvf -
 ```
 
 ### Initialization of the Device Secret
