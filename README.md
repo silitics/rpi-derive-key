@@ -52,17 +52,21 @@ The documentation of the Rust crate is [available on docs.rs](https://docs.rs/rp
 
 ### Initialization of the Device Secret
 
-Irreversibly initialize the device secret:
+To derive keys, the device secret needs to be initialized first.
+
+Using the command line tool, the device secret is irreversibly initialized with:
 
 ```
 rpi-derive-key init
 ```
 
-The initialization may fail if the firmware does not support storing a private key in OTP memory. You may need to update the firmware or use the generic customer-programable OTP registers instead with:
+Note that the initialization may fail if the firmware does not support storing a private key in OTP memory. In this case, you can either update the firmware or use the generic customer-programmable OTP registers instead:
 
 ```
 rpi-derive-key --customer-otp init
 ```
+
+The switch `--customer-otp` must subsequently be provided to all commands.
 
 ### Deriving a Key
 
