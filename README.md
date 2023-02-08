@@ -44,7 +44,7 @@ sudo dpkg --install rpi-derive-key_arm64.deb
 
 Note that the Debian packages do not include the Python package. They merely contain the command line tool and a Systemd service for initializing the device secret during the boot process. The Python package can be installed as usual via `pip` or added as a dependency to a Python project.
 
-For testing and debugging, the Python package is also available for MacOS, Windows, and x86_64 Linux. On these platforms the device secret must be faked by setting the `FAKE_RPI_DERIVE_KEY_SECRET` environment variable. The Python package is documented by its [type stub](https://github.com/silitics/rpi-derive-key/blob/main/python/rpi_derive_key.pyi).
+For testing and debugging, the Python package is also available for MacOS, Windows, and x86_64 Linux. On these platforms, however, the device secret must be faked by setting the `FAKE_RPI_DERIVE_KEY_SECRET` environment variable. The Python package is documented by its [type stub](https://github.com/silitics/rpi-derive-key/blob/main/python/rpi_derive_key.pyi).
 
 The documentation of the Rust crate is [available on docs.rs](https://docs.rs/rpi-derive-key/).
 
