@@ -46,6 +46,8 @@ Note that the Debian packages do not include the Python package. They merely con
 
 For testing and debugging, the Python package is also available for MacOS, Windows, and x86_64 Linux. On these platforms, however, the device secret must be faked by setting the `FAKE_RPI_DERIVE_KEY_SECRET` environment variable (see below). The Python package is documented by its [type stub](https://github.com/silitics/rpi-derive-key/blob/main/python/rpi_derive_key.pyi).
 
+Standalone binaries are available on the [GitHub releases page](https://github.com/silitics/rpi-derive-key/releases/latest/).
+
 The documentation of the Rust crate is [available on docs.rs](https://docs.rs/rpi-derive-key/).
 
 ### Initialization of the Device Secret
