@@ -283,7 +283,7 @@ jobs:
         run: find assets
       - name: Assets | Compute Checksums
         run: >
-          for file in assets/**/*; do
+          for file in assets/*; do
             sha256sum "${file}" | awk '{print $1}' > "${file}.sha256";
           done
       - name: Release | Get Version
