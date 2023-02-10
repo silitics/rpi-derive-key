@@ -101,7 +101,7 @@ rpi-derive-key hex <BYTES> <INFO>
 
 where `<BYTES>` is the key size in bytes and `<INFO>` is some arbitrary string.
 
-For instance, to generate a 512-bit filesystem encryption key run:
+For instance, to generate a 512-bit filesystem encryption key, run:
 
 ```
 rpi-derive-key hex 64 fs.root.encryption
@@ -117,7 +117,7 @@ rpi-derive-key uuid <INFO>
 
 where `<INFO>` is again some arbitrary string.
 
-For instance, to generate a unique device id run:
+For instance, to generate a unique device id, run:
 
 ```
 rpi-derive-key uuid device.id
@@ -133,7 +133,7 @@ Setting this variable also bypasses initialization via `rpi-derive-key init`.
 
 Imagine you would like to derive a unique public id and a secret identification token for each device.
 
-To derive a unique public device id using `device.id` as `<INFO>` run:
+To derive a unique public device id using `device.id` as `<INFO>`, run:
 
 ```
 rpi-derive-key uuid device.id
