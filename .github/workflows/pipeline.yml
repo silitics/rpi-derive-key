@@ -44,7 +44,7 @@ jobs:
       - name: Setup | Install Rust Toolchain
         uses: actions-rs/toolchain@v1
         with:
-          toolchain: nightly
+          toolchain: stable
           override: true
           components: clippy
       - name: Lint | Clippy
