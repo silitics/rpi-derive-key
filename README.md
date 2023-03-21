@@ -16,6 +16,7 @@
 ⚠️ **Caution:** This tool is based on storing a randomly generated _device secret_ in the [_One-Time Programmable_ (OTP) memory](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#otp-register-and-bit-definitions) of the Raspberry Pi SoC. The initialization of this secret is **irreversible**. Please **make sure you understand the provided security guarantees** before using it for anything serious.
 
 - **Cryptographically strong** key derivation using [SHA3-512](https://en.wikipedia.org/wiki/SHA-3) and [HKDF](https://www.rfc-editor.org/rfc/rfc5869).
+- Support for storing a 128-bit **group secret** as part of the device secret.
 - Statically-linked **standalone binary** with zero dependencies.
 - [Rust crate](https://crates.io/crates/rpi-derive-key) and [Python package](https://pypi.org/project/rpi-derive-key/) for easy integration into your project.
 
