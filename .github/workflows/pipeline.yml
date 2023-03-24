@@ -53,6 +53,15 @@ jobs:
           command: clippy
           args: -- -D warnings
   
+  lint-cargo-deny:
+    name: Lint (Cargo Deny)
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Setup | Checkout
+        uses: actions/checkout@v3
+      - name: Lint | Cargo Deny
+        uses: EmbarkStudios/cargo-deny-action@v1
+  
   build-docs:
     name: Build Docs
     runs-on: ubuntu-latest

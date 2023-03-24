@@ -1,0 +1,22 @@
+[licenses]
+# Disallow crates without licenses.
+unlicensed = "deny"
+# Explicitly allow the following licenses.
+allow = [
+    "MIT",
+    "Apache-2.0",
+    "Apache-2.0 WITH LLVM-exception",
+    "Unicode-DFS-2016",
+    "BSD-3-Clause",
+]
+# Disallow copyleft licenses.
+copyleft = "deny"
+# Do neither implicitly allow OSI nor FSF approved licenses.
+allow-osi-fsf-free = "neither"
+# Deny everything else without exceptions.
+default = "deny"
+exceptions = []
+
+[bans]
+# Allow multiple versions of the same crate.
+multiple-versions = "allow"
