@@ -116,6 +116,7 @@ pub(crate) type GroupSecret = Secret<[u8; 16]>;
 pub(crate) type DeviceSecret = Secret<[u8; 32]>;
 
 /// Randomly generates a device secret using a cryptographic random number generator.
+#[allow(dead_code)] // Only used on Linux.
 pub(crate) fn generate_device_secret() -> DeviceSecret {
     let mut secret = DeviceSecret::new();
     rand::thread_rng().fill(secret.as_mut_slice());
@@ -123,6 +124,7 @@ pub(crate) fn generate_device_secret() -> DeviceSecret {
 }
 
 /// Overwrites the upper 128-bits of the device secret with the provided group secret.
+#[allow(dead_code)] // Only used on Linux.
 pub(crate) fn set_group_secret(device_secret: &mut DeviceSecret, group_secret: &GroupSecret) {
     device_secret[..16].copy_from_slice(group_secret.as_slice());
 }

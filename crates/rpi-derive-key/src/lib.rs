@@ -116,7 +116,7 @@ impl DeriverBuilder {
             // Return a `Deriver` based on the fake key.
             eprintln!("Warning! Using fake secret.");
             let mut secret = secrets::DeviceSecret::new();
-            hex::decode_to_slice(&fake_str, secret.as_mut_slice()).map_err(|err| {
+            hex::decode_to_slice(fake_str, secret.as_mut_slice()).map_err(|err| {
                 BuildError::Other(format!(
                     "Unable to decode `FAKE_PRI_DERIVE_KEY_SECRET`. {:?}",
                     err
