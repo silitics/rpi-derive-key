@@ -42,7 +42,7 @@ impl Vcio {
         if self.locked {
             Err(io::Error::new(
                 io::ErrorKind::Other,
-                format!("VCIO device is already locked."),
+                "VCIO device is already locked.",
             ))
         } else {
             Ok(())
@@ -109,7 +109,7 @@ impl Vcio {
         if !self.locked {
             return Err(io::Error::new(
                 io::ErrorKind::Other,
-                format!("VCIO device is not locked."),
+                "VCIO device is not locked.",
             ));
         }
 
