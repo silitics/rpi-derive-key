@@ -115,12 +115,12 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-latest
-            target: x86_64-unknown-linux-gnu
-          - os: ubuntu-latest
-            target: aarch64-unknown-linux-gnu
-          - os: ubuntu-latest
-            target: armv7-unknown-linux-gnueabihf
+          - target: x86_64-unknown-linux-gnu
+            os: ubuntu-latest            
+          - target: aarch64-unknown-linux-gnu
+            os: ubuntu-latest            
+          - target: armv7-unknown-linux-gnueabihf
+            os: ubuntu-latest
           - os: macos-latest
           - os: windows-latest
     steps:
@@ -175,7 +175,8 @@ jobs:
       - name: Setup | Install Rust Toolchain
         uses: actions-rs/toolchain@v1
         with:
-          toolchain: nightly-2023-03-09
+          # We pin the nightly version to prevent build problems.
+          toolchain: nightly-2023-02-07
           override: true
           components: rust-src
       - name: Build | Standalone Binary
