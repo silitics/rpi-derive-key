@@ -2,6 +2,15 @@
 default:
     just --list
 
+# Build the documentation.
+doc:
+    cargo doc \
+        --lib \
+        --document-private-items \
+        --workspace \
+        --exclude rpi-derive-key-python \
+        --target aarch64-unknown-linux-musl
+
 # Build `rpi-derive-key` for the specified TARGET.
 build TARGET="aarch64-unknown-linux-musl":
     #!/bin/bash

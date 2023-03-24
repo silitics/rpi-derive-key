@@ -14,4 +14,4 @@ sha3 = "0.10"  # PRIVATE
 nix = { version = "0.26", features = ["ioctl"] }  # PRIVATE
 rand = "0.8.5"  # PRIVATE
 thiserror = "1.0.38"  # PRIVATE
-
+hex = "0.4.1"  # PRIVATE
