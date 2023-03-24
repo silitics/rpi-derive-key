@@ -175,7 +175,7 @@ jobs:
       - name: Setup | Install Rust Toolchain
         uses: actions-rs/toolchain@v1
         with:
-          toolchain: nightly
+          toolchain: nightly-2023-03-09
           override: true
           components: rust-src
       - name: Build | Standalone Binary
