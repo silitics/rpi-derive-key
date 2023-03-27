@@ -15,6 +15,10 @@
 
 ⚠️ **Caution:** This tool is based on storing a randomly generated _device secret_ in the [_One-Time Programmable_ (OTP) memory](https://www.raspberrypi.com/documentation/computers/raspberry-pi.html#otp-register-and-bit-definitions) of the Raspberry Pi SoC. The initialization of this secret is **irreversible**. Please **make sure you understand the provided security guarantees** before using it for anything serious.
 
+> 🚧 **WORK IN PROGRESS** 🚧
+>
+> RPi Derive Key **is still under construction**. In particular, the functionality described here may not exist yet, may change considerably in the future, or may even be completely abandoned at a later point in time. ⚠️
+
 - **Cryptographically strong** key derivation using [SHA3-512](https://en.wikipedia.org/wiki/SHA-3) and [HKDF](https://www.rfc-editor.org/rfc/rfc5869).
 - Support for storing a 128-bit **group secret** as part of the device secret.
 - Statically-linked **standalone binary** with zero dependencies.
